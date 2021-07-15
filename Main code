@@ -1,0 +1,72 @@
+//The code below is running behind the template ss described in READ.me file.
+//The template.
+//https://docs.google.com/spreadsheets/d/1pEQnBH0nZ3sUUY4oA70caNBzZ3D9_1x2BNqQlJ4RuB0/edit?usp=sharing
+//Get active sheet.
+const ss = SpreadsheetApp.getActiveSpreadsheet();
+const sheet = ss.getActiveSheet();
+const emails = sheet.getRange("J2:J6").getValues();
+/**
+ * Creates a Google Calender with event for each meeting session in the 
+ * spreadsheet.
+ */
+function create_calendar() {
+  //Set-up the spread sheet information.
+  var range = sheet.getDataRange();
+  var values = range.getValues();
+  set_up_calender(values);
+}
+
+//Set-up the calender including events in ss.
+function set_up_calender(values){
+  //If the calender has not yet been created, create new one.
+  var calid = sheet.getRange("I2").getValue();
+  var cal = CalendarApp.getCalendarById(calid);
+  //Add every event in ss to the calenar.
+  for (var i = 1; i < values.length; i++) {
+    var session = values[i];
+    var title = session[0];
+    var start = joinDateAndTime_(session[1], session[2]);
+    var end = joinDateAndTime_(session[1], session[3]);
+    var options = {location: session[4], description:session[5],sendInvites:true};
+    var event = cal.createEvent(title, start,end,options);
+    //get event ID.
+    session[7] = event.getId();
+    var id = session[7];
+    for(let email of emails){
+      cal.getEventSeriesById(id).addGuest(email);
+    }
+  }
+}
+
+
+//Delete and re-create the calender.
+function update_calendar(){
+  //Open ss.
+  var range = sheet.getDataRange();
+  var values = range.getValues();
+  const calenderid = sheet.getRange("I2").getValue();
+  var calender = CalendarApp.getCalendarById(calenderid);
+  //You have to customize the star/end date of your calender.
+  const start = new Date("2021/07/01");
+  const end = new Date("2021/12/01");
+  var events = calender.getEvents(start,end);
+  for(let event of events){
+    Logger.log(event.getTitle())
+    event.deleteEvent();
+  }
+  create_calendar();
+}
+
+/**
+ * Creates a single Date object from separate date and time cells.
+ *
+ * @param {Date} date A Date object from which to extract the date.
+ * @param {Date} time A Date object from which to extract the time.
+ * @return {Date} A Date object representing the combined date and time.
+ */
+function joinDateAndTime_(date, time) {
+  date = new Date(date);
+  date.setHours(time.getHours());
+  date.setMinutes(time.getMinutes());
+  return date;
+}
