@@ -8,7 +8,7 @@ Updated info will be informed to them.
 Be aware not to change the calendar id in the cell.
 Date and time format should be followed as examples.
 You can see the template here.
-
+https://docs.google.com/spreadsheets/d/1pEQnBH0nZ3sUUY4oA70caNBzZ3D9_1x2BNqQlJ4RuB0/edit?usp=sharing
 Reference
 Find your calendar id.
 https://docs.simplecalendar.io/find-google-calendar-id/
