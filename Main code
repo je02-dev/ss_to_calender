@@ -1,6 +1,6 @@
 //The code below is running behind the template ss described in READ.me file.
 //The template.
-//https://docs.google.com/spreadsheets/d/1pEQnBH0nZ3sUUY4oA70caNBzZ3D9_1x2BNqQlJ4RuB0/edit?usp=sharing
+//https://docs.google.com/spreadsheets/d/1nVL2evScpT705nrDOvIxG4aAG5vEMUAs1RTvC2-aDEY/edit?usp=sharing
 //Get active sheet.
 const ss = SpreadsheetApp.getActiveSpreadsheet();
 const sheet = ss.getActiveSheet();
